@@ -34,9 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     /**
-     * @var Collection<int, BAL>
+     * @var Collection<int, Bal>
      */
-    #[ORM\OneToMany(targetEntity: BAL::class, mappedBy: 'creator', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Bal::class, mappedBy: 'creator', orphanRemoval: true)]
     private Collection $bourses;
 
     public function __construct()
@@ -120,14 +120,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, BAL>
+     * @return Collection<int, Bal>
      */
     public function getBourses(): Collection
     {
         return $this->bourses;
     }
 
-    public function addBourse(BAL $bourse): static
+    public function addBourse(Bal $bourse): static
     {
         if (!$this->bourses->contains($bourse)) {
             $this->bourses->add($bourse);
@@ -137,7 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeBourse(BAL $bourse): static
+    public function removeBourse(Bal $bourse): static
     {
         if ($this->bourses->removeElement($bourse)) {
             // set the owning side to null (unless already changed)

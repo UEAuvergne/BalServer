@@ -32,7 +32,7 @@ class BookInstance
 
     #[ORM\ManyToOne(inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?BAL $bal = null;
+    private ?Bal $bal = null;
 
     public function getId(): ?int
     {
@@ -87,12 +87,12 @@ class BookInstance
         return $this;
     }
 
-    public function getBal(): ?BAL
+    public function getBal(): ?Bal
     {
         return $this->bal;
     }
 
-    public function setBal(?BAL $bal): static
+    public function setBal(?Bal $bal): static
     {
         $this->bal = $bal;
 
