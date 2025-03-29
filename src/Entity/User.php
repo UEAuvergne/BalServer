@@ -39,6 +39,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Bal::class, mappedBy: 'creator', orphanRemoval: true)]
     private Collection $bourses;
 
+    #[ORM\Column(length: 127, nullable: true)]
+    private ?string $name = null;
+
+    /**
+     * @var string
+     */
+    private ?string $plainPassword = null;
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function hasPlainPasswordSet(): bool
+    {
+        return $this->plainPassword != null;
+    }
+
+    public function setPlainPassword(string $plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
     public function __construct()
     {
         $this->bourses = new ArrayCollection();
@@ -116,7 +145,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     /**
@@ -147,5 +176,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getUserIdentifier() . ($this->getName() ? " ({$this->getName()})" : '');
     }
 }

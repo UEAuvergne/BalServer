@@ -7,6 +7,7 @@ use App\Repository\OwnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\This;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: OwnerRepository::class)]
@@ -106,5 +107,10 @@ class Owner
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName() . ' (' . $this->getContact() . ')';
     }
 }

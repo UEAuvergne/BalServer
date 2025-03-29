@@ -17,11 +17,10 @@ security:
           pattern: ^/api/
           stateless: true
           provider: app_user_provider
-          entry_point: http_basic
           jwt: ~
-          http_basic: ~
         main:
             json_login:
+                provider: app_user_provider
                 check_path: auth # The name in routes.yaml is enough for mapping
                 username_path: email
                 password_path: password
@@ -37,10 +36,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        # API Routes
         - { path: ^/api/docs, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:

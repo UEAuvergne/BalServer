@@ -37,6 +37,11 @@ class BookData
     {
         return $this->ean;
     }
+    
+    public function setEan(string $ean)
+    {
+        $this->ean = $ean;
+    }
 
     public function getTitle(): ?string
     {
@@ -90,5 +95,10 @@ class BookData
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getAuthorName() ? "{$this->getTitle()} ({$this->getAuthorName()})" : $this->getTitle();
     }
 }
