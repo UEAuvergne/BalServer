@@ -1,5 +1,5 @@
 api_platform:
-    title: Hello API Platform
+    title: Bourse Aux Livres
     version: 1.0.0
     defaults:
         stateless: true
@@ -7,6 +7,11 @@ api_platform:
             vary: ['Content-Type', 'Authorization', 'Origin']
     # Enable the Swagger documentation and export.
     enable_swagger: true
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
 
     # Enable Swagger UI.
     enable_swagger_ui: true
