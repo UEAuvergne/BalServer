@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,6 +32,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, BAL>
+     */
+    #[ORM\OneToMany(targetEntity: BAL::class, mappedBy: 'creator', orphanRemoval: true)]
+    private Collection $bourses;
+
+    public function __construct()
+    {
+        $this->bourses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,5 +117,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, BAL>
+     */
+    public function getBourses(): Collection
+    {
+        return $this->bourses;
+    }
+
+    public function addBourse(BAL $bourse): static
+    {
+        if (!$this->bourses->contains($bourse)) {
+            $this->bourses->add($bourse);
+            $bourse->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBourse(BAL $bourse): static
+    {
+        if ($this->bourses->removeElement($bourse)) {
+            // set the owning side to null (unless already changed)
+            if ($bourse->getCreator() === $this) {
+                $bourse->setCreator(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -30,6 +30,10 @@ class BookInstance
     #[ORM\JoinColumn(nullable: false)]
     private ?Owner $owner = null;
 
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?BAL $bal = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,6 +83,18 @@ class BookInstance
     public function setOwner(?Owner $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getBal(): ?BAL
+    {
+        return $this->bal;
+    }
+
+    public function setBal(?BAL $bal): static
+    {
+        $this->bal = $bal;
 
         return $this;
     }
