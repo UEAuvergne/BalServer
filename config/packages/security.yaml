@@ -19,8 +19,17 @@ security:
           provider: app_user_provider
           jwt: ~
         main:
+            form_login:
+                login_path: admin_login
+                check_path: admin_login
+                enable_csrf: true
+                default_target_path: admin
+                always_use_default_target_path: true
+            logout:
+                path: logout
+                # where to redirect after logout
+                target: admin_login
             json_login:
-                provider: app_user_provider
                 check_path: auth # The name in routes.yaml is enough for mapping
                 username_path: email
                 password_path: password
@@ -39,6 +48,9 @@ security:
         # API Routes
         - { path: ^/api/docs, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        # Admin Routes
+        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/admin, roles: ROLE_ADMIN }
 
 when@test:
     security:
