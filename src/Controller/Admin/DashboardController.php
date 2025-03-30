@@ -12,10 +12,18 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+    function __construct(
+        public TranslatorInterface $translator
+    )
+    {
+        
+    }
+
     public function index(): Response
     {
         //return parent::index();
@@ -52,16 +60,16 @@ class DashboardController extends AbstractDashboardController
         // yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
         return [
-            MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+            //MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
-            MenuItem::section('BAL'),
-            MenuItem::linkToCrud('Bourses aux livres', 'fa fa-tags', Bal::class),
-            MenuItem::linkToCrud('Livres', 'fa fa-file-text', BookInstance::class),
-            MenuItem::linkToCrud('Données de livres', 'fa fa-file-text', BookData::class),
-            MenuItem::linkToCrud('Propriétaires', 'fa fa-user', Owner::class),
+            MenuItem::section($this->translator->trans('bal.bal')),
+            MenuItem::linkToCrud($this->translator->trans('bal.bals'), 'fa fa-tags', Bal::class),
+            MenuItem::linkToCrud($this->translator->trans('bal.book_instances'), 'fa fa-file-text', BookInstance::class),
+            MenuItem::linkToCrud($this->translator->trans('bal.book_data'), 'fa fa-file-text', BookData::class),
+            MenuItem::linkToCrud($this->translator->trans('bal.owners'), 'fa fa-user', Owner::class),
 
-            MenuItem::section('Users'),
-            MenuItem::linkToCrud('Users', 'fa fa-user', User::class),
+            MenuItem::section($this->translator->trans('users')),
+            MenuItem::linkToCrud($this->translator->trans('users'), 'fa fa-user', User::class),
         ];
     }
 }

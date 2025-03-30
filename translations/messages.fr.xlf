@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id=".04USfm" resname="bal.bal">
+        <source>bal.bal</source>
+        <target>Bourse Aux Livres</target>
+      </trans-unit>
+      <trans-unit id="ijHGS2H" resname="bal.book_instances">
+        <source>bal.book_instances</source>
+        <target>Livres</target>
+      </trans-unit>
+      <trans-unit id="NEd4UTL" resname="bal.book_data">
+        <source>bal.book_data</source>
+        <target>Données de livres</target>
+      </trans-unit>
+      <trans-unit id="SMsaZZ8" resname="bal.owners">
+        <source>bal.owners</source>
+        <target>Propriétaires</target>
+      </trans-unit>
+      <trans-unit id="SIYPmL5" resname="users">
+        <source>users</source>
+        <target>Utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="sh6P.q1" resname="bal.bals">
+        <source>bal.bals</source>
+        <target>Bourses Aux Livres</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
