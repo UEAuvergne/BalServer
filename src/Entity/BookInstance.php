@@ -7,7 +7,7 @@ use App\Data\BookStatus;
 use App\Repository\BookInstanceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ApiResource]
+#[ApiResource()]
 #[ORM\Entity(repositoryClass: BookInstanceRepository::class)]
 class BookInstance
 {
@@ -23,8 +23,8 @@ class BookInstance
     private ?BookStatus $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'instances')]
-    #[ORM\JoinColumn(nullable: false, referencedColumnName: 'ean')]
-    private ?BookData $data = null;
+    #[ORM\JoinColumn(nullable: false, referencedColumnName: 'id')]
+    private ?Book $data = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
@@ -63,12 +63,12 @@ class BookInstance
         return $this;
     }
 
-    public function getData(): ?BookData
+    public function getData(): ?Book
     {
         return $this->data;
     }
 
-    public function setData(?BookData $data): static
+    public function setData(?Book $data): static
     {
         $this->data = $data;
 

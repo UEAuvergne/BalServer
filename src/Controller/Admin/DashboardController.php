@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Bal;
-use App\Entity\BookData;
+use App\Entity\Book;
 use App\Entity\BookInstance;
 use App\Entity\Owner;
 use App\Entity\User;
@@ -21,7 +21,7 @@ class DashboardController extends AbstractDashboardController
         public TranslatorInterface $translator
     )
     {
-        
+
     }
 
     public function index(): Response
@@ -65,7 +65,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::section($this->translator->trans('bal.bal')),
             MenuItem::linkToCrud($this->translator->trans('bal.bals'), 'fa fa-tags', Bal::class),
             MenuItem::linkToCrud($this->translator->trans('bal.book_instances'), 'fa fa-file-text', BookInstance::class),
-            MenuItem::linkToCrud($this->translator->trans('bal.book_data'), 'fa fa-file-text', BookData::class),
+            MenuItem::linkToCrud($this->translator->trans('bal.book_data'), 'fa fa-file-text', Book::class),
             MenuItem::linkToCrud($this->translator->trans('bal.owners'), 'fa fa-user', Owner::class),
 
             MenuItem::section($this->translator->trans('users')),

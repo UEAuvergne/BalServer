@@ -2,22 +2,32 @@
 
 namespace App\Repository;
 
-use App\Entity\BookData;
+use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<BookData>
+ * @extends ServiceEntityRepository<Book>
  */
-class BookDataRepository extends ServiceEntityRepository
+class BookRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, BookData::class);
+        parent::__construct($registry, Book::class);
+    }
+
+    public function findByEan($value): ?Book
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.ean = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
     //    /**
-    //     * @return BookData[] Returns an array of BookData objects
+    //     * @return Book[] Returns an array of Book objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +41,7 @@ class BookDataRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?BookData
+    //    public function findOneBySomeField($value): ?Book
     //    {
     //        return $this->createQueryBuilder('b')
     //            ->andWhere('b.exampleField = :val')

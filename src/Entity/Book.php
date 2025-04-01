@@ -3,17 +3,29 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\BookDataRepository;
+use ApiPlatform\Metadata\{Get, Post, Put, Delete, GetCollection};
+use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ApiResource]
-#[ORM\Entity(repositoryClass: BookDataRepository::class)]
-class BookData
+#[ApiResource(operations: [
+    new Get(),
+    new Get(uriTemplate: '/books?ean={ean}'),
+    new Put(),
+    new Delete(),
+    new GetCollection(),
+    new Post(),
+])]
+#[ORM\Entity(repositoryClass: BookRepository::class)]
+class Book
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
     #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 15, nullable: true)]
     private ?string $ean = null;
 
     #[ORM\Column(length: 255)]
@@ -32,12 +44,17 @@ class BookData
     {
         $this->instances = new ArrayCollection();
     }
-    
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
     public function getEan(): ?string
     {
         return $this->ean;
     }
-    
+
     public function setEan(string $ean)
     {
         $this->ean = $ean;
