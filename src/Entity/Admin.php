@@ -2,17 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[ORM\Table(name: "users")]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: AdminRepository::class)]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+#[ORM\Table(name: "admins")]
+class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,7 +18,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    private ?string $email = null;
+    private ?string $username = null;
 
     /**
      * @var list<string> The user roles
@@ -33,15 +31,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
-
-    /**
-     * @var Collection<int, Bal>
-     */
-    #[ORM\OneToMany(targetEntity: Bal::class, mappedBy: 'creator', orphanRemoval: true)]
-    private Collection $bourses;
-
-    #[ORM\Column(length: 127)]
-    private ?string $name = null;
 
     /**
      * @var string
@@ -69,24 +58,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->plainPassword = $plainPassword;
     }
 
-    public function __construct()
-    {
-        $this->bourses = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getUsername(): ?string
     {
-        return $this->email;
+        return $this->username;
     }
 
-    public function setEmail(string $email): static
+    public function setUsername(string $username): static
     {
-        $this->email = $email;
+        $this->username = $username;
 
         return $this;
     }
@@ -98,7 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
     /**
@@ -145,54 +129,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
         $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<int, Bal>
-     */
-    public function getBourses(): Collection
-    {
-        return $this->bourses;
-    }
-
-    public function addBourse(Bal $bourse): static
-    {
-        if (!$this->bourses->contains($bourse)) {
-            $this->bourses->add($bourse);
-            $bourse->setCreator($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBourse(Bal $bourse): static
-    {
-        if ($this->bourses->removeElement($bourse)) {
-            // set the owning side to null (unless already changed)
-            if ($bourse->getCreator() === $this) {
-                $bourse->setCreator(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->getUserIdentifier() . ($this->getName() ? " ({$this->getName()})" : '');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Admin;
 use App\Entity\Bal;
 use App\Entity\Book;
 use App\Entity\BookInstance;
@@ -58,18 +59,17 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         // yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-        return [
-            //MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
-            MenuItem::section($this->translator->trans('bal.bal')),
-            MenuItem::linkToCrud($this->translator->trans('bal.bals'), 'fa fa-tags', Bal::class),
-            MenuItem::linkToCrud($this->translator->trans('bal.book_instances'), 'fa fa-file-text', BookInstance::class),
-            MenuItem::linkToCrud($this->translator->trans('bal.book_data'), 'fa fa-file-text', Book::class),
-            MenuItem::linkToCrud($this->translator->trans('bal.owners'), 'fa fa-user', Owner::class),
+        yield MenuItem::section($this->translator->trans('bal.bal'));
+        yield MenuItem::linkToCrud($this->translator->trans('bal.bals'), 'fa fa-tags', Bal::class);
+        yield MenuItem::linkToCrud($this->translator->trans('bal.book_instances'), 'fa fa-book', BookInstance::class);
+        yield MenuItem::linkToCrud($this->translator->trans('bal.book_data'), 'fa fa-file-text', Book::class);
+        yield MenuItem::linkToCrud($this->translator->trans('bal.owners'), 'fa fa-user-o', Owner::class);
 
-            MenuItem::section($this->translator->trans('users')),
-            MenuItem::linkToCrud($this->translator->trans('users'), 'fa fa-user', User::class),
-        ];
+        yield MenuItem::section($this->translator->trans('users'));
+        yield MenuItem::linkToCrud($this->translator->trans('users'), 'fa fa-users', User::class);
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            yield MenuItem::linkToCrud($this->translator->trans('admins'), 'fa fa-user', Admin::class);
+        }
     }
 }
