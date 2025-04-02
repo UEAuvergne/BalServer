@@ -26,12 +26,6 @@ security:
             stateless: true
             provider: users
             jwt: ~
-            json_login:
-                check_path: auth # The name in routes.yaml is enough for mapping
-                username_path: email
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
         admin:
             pattern: ^/admin
             provider: admins
@@ -46,6 +40,13 @@ security:
                 # where to redirect after logout
                 target: admin_login
         main:
+            json_login:
+                provider: users
+                check_path: auth # The name in routes.yaml is enough for mapping
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
