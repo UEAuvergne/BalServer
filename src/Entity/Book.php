@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\{Get, Post, Put, Delete, GetCollection};
+use ApiPlatform\Metadata\{ApiFilter, Get, Post, Put, Delete, GetCollection};
 use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,12 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource(operations: [
     new Get(),
-    new Get(uriTemplate: '/books?ean={ean}'),
     new Put(),
     new Delete(),
     new GetCollection(),
     new Post(),
 ])]
+#[ApiFilter(SearchFilter::class, properties: ['title' => 'ipartial', 'ean' => 'partial', 'authorName' => 'ipartial'])]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
