@@ -19,6 +19,9 @@ class BookInstance
     #[ORM\Column]
     private ?int $price = null;
 
+    #[ORM\Column(nullable: false)]
+    private ?int $soldPrice = null;
+
     #[ORM\Column(enumType: BookStatus::class)]
     private ?BookStatus $status = null;
 
@@ -47,6 +50,18 @@ class BookInstance
     public function setPrice(int $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getSoldPrice(): ?int
+    {
+        return $this->soldPrice;
+    }
+
+    public function setSoldPrice(int $price): static
+    {
+        $this->soldPrice = $price;
 
         return $this;
     }

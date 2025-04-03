@@ -7,7 +7,6 @@ use App\Repository\OwnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\This;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: OwnerRepository::class)]
@@ -32,6 +31,11 @@ class Owner
      */
     #[ORM\OneToMany(targetEntity: BookInstance::class, mappedBy: 'owner', orphanRemoval: true)]
     private Collection $books;
+
+    public function getBooksValue(): ?int
+    {
+        return $this->getBookInstances()->reduce(function($carry, BookInstance $item){$carry += $item->getSoldPrice();return $carry;});
+    }
 
     public function __construct()
     {
